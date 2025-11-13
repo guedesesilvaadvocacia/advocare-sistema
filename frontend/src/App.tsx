@@ -1,24 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Login from './components/Login';
 import './App.css';
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLoginSuccess = (userData: any) => {
+    setUser(userData);
+  };
+
+  if (!user) {
+    return <Login onLoginSuccess={handleLoginSuccess} />;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="app">
+      <header className="app-header">
+        <h1>Painel Advocare</h1>
+        <p>Bem-vindo, {user.name}!</p>
       </header>
+      <main className="app-main">
+        <div className="dashboard-grid">
+          <div className="dashboard-card">
+            <h3>Clientes</h3>
+            <p>Gerencie seus clientes</p>
+          </div>
+          <div className="dashboard-card">
+            <h3>Processos</h3>
+            <p>Controle de processos</p>
+          </div>
+          <div className="dashboard-card">
+            <h3>Agenda</h3>
+            <p>Compromissos e prazos</p>
+          </div>
+          <div className="dashboard-card">
+            <h3>Documentos</h3>
+            <p>Arquivos e petições</p>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

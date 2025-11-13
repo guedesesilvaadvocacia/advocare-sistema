@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advocare - Sistema Jurídico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-4xl mx-auto p-6">
+        <!-- Header -->
+        <div class="bg-blue-800 text-white rounded-lg p-6 mb-6 shadow-lg">
+            <div class="flex items-center space-x-4">
+                <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-balance-scale text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-bold">Advocare</h1>
+                    <p class="text-blue-200">Sistema de Gestão Jurídica</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cards de Teste -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Teste Conexão -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Teste de Conexão</h3>
+                        <p class="text-sm text-gray-600">Verifica backend</p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-wifi text-green-500 text-xl"></i>
+                    </div>
+                </div>
+                <button onclick="testarConexao()" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 font-semibold">
+                    🟢 Testar Conexão
+                </button>
+                <div id="statusConexao" class="mt-2 text-sm text-center">-</div>
+            </div>
+
+            <!-- Salvar Processo -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Salvar Processo</h3>
+                        <p class="text-sm text-gray-600">Salva na planilha</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-save text-blue-500 text-xl"></i>
+                    </div>
+                </div>
+                <button onclick="salvarProcesso()" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 font-semibold">
+                    💾 Salvar Processo
+                </button>
+                <div id="statusSalvar" class="mt-2 text-sm text-center">-</div>
+            </div>
+
+            <!-- Buscar Processos -->
+            <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800">Buscar Processos</h3>
+                        <p class="text-sm text-gray-600">Busca da planilha</p>
+                    </div>
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-search text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+                <button onclick="buscarProcessos()" class="w-full bg-purple-500 text-white py-3 rounded-lg hover:bg-purple-600 font-semibold">
+                    📋 Buscar Processos
+                </button>
+                <div id="statusBuscar" class="mt-2 text-sm text-center">-</div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">📊 Logs do Sistema</h2>
+            <div id="logs" class="space-y-3 max-h-96 overflow-y-auto">
+                <div class="text-gray-500 text-sm">Clique nos botões para testar...</div>
+            </div>
+        </div>
+
+        <!-- Processos Encontrados -->
+        <div id="processosContainer" class="bg-white rounded-lg shadow-md p-6 hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">📋 Processos na Planilha</h2>
+            <div id="processosList" class="space-y-2"></div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ SUBSTITUA ESTA URL PELA URL DO SEU DEPLOY NOVO ⚠️
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyAzqhF_bvSsHnuvlX__qy1cAn3e1EHfvm5AmolU7hVR5ZNNadvcTbe-Q2miY3gkpxuHg/exec';
+
+        function log(mensagem, tipo = 'info') {
+            const logs = document.getElementById('logs');
+            const hora = new Date().toLocaleTimeString();
+            const icone = tipo === 'erro' ? '❌' : tipo === 'sucesso' ? '✅' : 'ℹ️';
+            const corBorda = tipo === 'erro' ? 'red' : tipo === 'sucesso' ? 'green' : 'blue';
+            const corTexto = tipo === 'erro' ? 'red' : tipo === 'sucesso' ? 'green' : 'blue';
+            
+            const logItem = document.createElement('div');
+            logItem.className = `border-l-4 border-${corBorda}-500 bg-${corBorda}-50 p-3 rounded`;
+            logItem.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <span class="font-semibold text-${corTexto}-800">${icone} ${mensagem}</span>
+                    </div>
+                    <span class="text-xs text-gray-500 ml-2">${hora}</span>
+                </div>
+            `;
+            
+            logs.insertBefore(logItem, logs.firstChild);
+            
+            // Mantém apenas os últimos 10 logs
+            while (logs.children.length > 10) {
+                logs.removeChild(logs.lastChild);
+            }
+        }
+
+        async function testarConexao() {
+            document.getElementById('statusConexao').textContent = '⏳ Testando...';
+            document.getElementById('statusConexao').className = 'mt-2 text-sm text-yellow-600 text-center';
+            
+            try {
+                log('Iniciando teste de conexão...', 'info');
+                
+                const resposta = await fetch(API_URL + '?acao=testar');
+                const dados = await resposta.json();
+                
+                document.getElementById('statusConexao').textContent = '✅ Conectado';
+                document.getElementById('statusConexao').className = 'mt-2 text-sm text-green-600 text-center';
+                
+                log('Conexão estabelecida com sucesso!', 'sucesso');
+                log('Mensagem: ' + dados.data.message, 'sucesso');
+                
+                console.log('✅ Backend response:', dados);
+                
+            } catch (erro) {
+                document.getElementById('statusConexao').textContent = '❌ Erro';
+                document.getElementById('statusConexao').className = 'mt-2 text-sm text-red-600 text-center';
+                
+                log('Falha na conexão: ' + erro.message, 'erro');
+                console.error('❌ Connection error:', erro);
+            }
+        }
+
+        async function salvarProcesso() {
+            document.getElementById('statusSalvar').textContent = '⏳ Salvando...';
+            document.getElementById('statusSalvar').className = 'mt-2 text-sm text-yellow-600 text-center';
+            
+            const processo = {
+                numeroCNJ: '000' + Math.floor(1000 + Math.random() * 9000) + '-56.2024.8.26.0100',
+                cliente: 'Cliente Teste ' + Math.floor(1 + Math.random() * 100),
+                tipo: 'Ação Civil',
+                vara: Math.floor(1 + Math.random() * 5) + 'ª Vara Cível'
+            };
+            
+            try {
+                log('Enviando processo: ' + processo.numeroCNJ, 'info');
+                
+                const resposta = await fetch(API_URL + '?acao=salvarProcesso&dados=' + encodeURIComponent(JSON.stringify(processo)));
+                const resultado = await resposta.json();
+                
+                if (resultado.data.success) {
+                    document.getElementById('statusSalvar').textContent = '✅ Salvo';
+                    document.getElementById('statusSalvar').className = 'mt-2 text-sm text-green-600 text-center';
+                    
+                    log('Processo salvo com sucesso!', 'sucesso');
+                    log('ID: ' + resultado.data.id, 'sucesso');
+                    log('Número CNJ: ' + processo.numeroCNJ, 'sucesso');
+                    
+                } else {
+                    document.getElementById('statusSalvar').textContent = '❌ Erro';
+                    document.getElementById('statusSalvar').className = 'mt-2 text-sm text-red-600 text-center';
+                    
+                    log('Erro ao salvar: ' + resultado.data.error, 'erro');
+                }
+                
+                console.log('💾 Save response:', resultado);
+                
+            } catch (erro) {
+                document.getElementById('statusSalvar').textContent = '❌ Erro';
+                document.getElementById('statusSalvar').className = 'mt-2 text-sm text-red-600 text-center';
+                
+                log('Erro de rede: ' + erro.message, 'erro');
+                console.error('❌ Save error:', erro);
+            }
+        }
+
+        async function buscarProcessos() {
+            document.getElementById('statusBuscar').textContent = '⏳ Buscando...';
+            document.getElementById('statusBuscar').className = 'mt-2 text-sm text-yellow-600 text-center';
+            
+            try {
+                log('Buscando processos da planilha...', 'info');
+                
+                const resposta = await fetch(API_URL + '?acao=buscarProcessos');
+                const resultado = await resposta.json();
+                
+                document.getElementById('statusBuscar').textContent = '✅ ' + resultado.data.length + ' encontrados';
+                document.getElementById('statusBuscar').className = 'mt-2 text-sm text-green-600 text-center';
+                
+                log('Encontrados ' + resultado.data.length + ' processos', 'sucesso');
+                
+                // Mostra a lista de processos
+                mostrarProcessos(resultado.data);
+                
+                console.log('📋 Processes found:', resultado.data);
+                
+            } catch (erro) {
+                document.getElementById('statusBuscar').textContent = '❌ Erro';
+                document.getElementById('statusBuscar').className = 'mt-2 text-sm text-red-600 text-center';
+                
+                log('Erro ao buscar: ' + erro.message, 'erro');
+                console.error('❌ Fetch error:', erro);
+            }
+        }
+
+        function mostrarProcessos(processos) {
+            const container = document.getElementById('processosContainer');
+            const lista = document.getElementById('processosList');
+            
+            container.classList.remove('hidden');
+            lista.innerHTML = '';
+            
+            if (processos.length === 0) {
+                lista.innerHTML = '<div class="text-gray-500 text-center py-4">Nenhum processo encontrado na planilha</div>';
+                return;
+            }
+            
+            processos.forEach((processo, index) => {
+                const processoDiv = document.createElement('div');
+                processoDiv.className = 'border border-gray-200 rounded p-3 hover:bg-gray-50';
+                processoDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="font-semibold text-blue-800">${processo.NumeroCNJ || processo.numeroCNJ || 'N/A'}</div>
+                            <div class="text-sm text-gray-600">Cliente: ${processo.Cliente || processo.cliente || 'N/A'}</div>
+                            <div class="text-sm text-gray-600">Vara: ${processo.Vara || processo.vara || 'N/A'}</div>
+                            <div class="text-xs text-gray-500 mt-1">ID: ${processo.ID || processo.id || 'N/A'}</div>
+                        </div>
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-semibold">
+                            ${processo.Status || processo.status || 'Ativo'}
+                        </span>
+                    </div>
+                `;
+                lista.appendChild(processoDiv);
+            });
+        }
+
+        // Teste automático ao carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Sistema Advocare carregado!', 'sucesso');
+            log('Aguardando URL do backend...', 'info');
+        });
+    </script>
+</body>
+</html>
