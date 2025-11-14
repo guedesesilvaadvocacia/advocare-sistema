@@ -1,27 +1,50 @@
-﻿import React, { useState } from 'react';
-import './Login.css';
+﻿// frontend/src/components/Login.tsx - VERSÃO PROFISSIONAL
+import React, { useState, useEffect } from "react";
+import "./Login.css";
 
-interface LoginProps {
-  onLoginSuccess: (userData: any) => void;
-}
-
-const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  // Efeito das partículas
+  useEffect(() => {
+    const createParticles = () => {
+      const particlesContainer = document.getElementById('particles');
+      if (!particlesContainer) return;
+      
+      const particleCount = 12;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        const size = Math.random() * 40 + 15;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.opacity = (Math.random() * 0.2 + 0.1).toString();
+        
+        particlesContainer.appendChild(particle);
+      }
+    };
+
+    createParticles();
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     if (username === 'guedesesilva' && password === 'jvs306') {
       setTimeout(() => {
-        onLoginSuccess({
-          name: 'Guedes & Silva',
-          email: 'contato@guedesesilva.com.br',
-          role: 'admin'
-        });
-        setLoading(false);
+        // Redirecionar para dashboard
+        window.location.href = '/dashboard';
       }, 1500);
     } else {
       alert('Credenciais inválidas. Use: Usuário: guedesesilva | Senha: jvs306');
@@ -31,6 +54,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
   return (
     <div className="login-page">
+      <div className="particles" id="particles"></div>
+      
       <div className="login-container">
         <div className="login-form">
           <div className="firm-header">
@@ -100,7 +125,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
           </form>
           
           <div className="footer">
-            © 2024 Guedes & Silva Advogados. Todos os direitos reservados.
+            © 2023 Guedes & Silva Advogados. Todos os direitos reservados.
           </div>
         </div>
         
@@ -110,11 +135,11 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
             <p>Nosso sistema oferece soluções completas para a administração do seu escritório:</p>
             
             <ul className="features">
-              <li>• Controle de processos e prazos</li>
-              <li>• Gestão de clientes e honorários</li>
-              <li>• Agenda e compromissos integrados</li>
-              <li>• Armazenamento seguro de documentos</li>
-              <li>• Relatórios financeiros e processuais</li>
+              <li>Controle de processos e prazos</li>
+              <li>Gestão de clientes e honorários</li>
+              <li>Agenda e compromissos integrados</li>
+              <li>Armazenamento seguro de documentos</li>
+              <li>Relatórios financeiros e processuais</li>
             </ul>
           </div>
         </div>
