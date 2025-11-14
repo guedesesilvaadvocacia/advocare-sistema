@@ -1,5 +1,4 @@
-﻿// frontend/src/components/Login.tsx - GUEDES & SILVA DESIGN PROFISSIONAL
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import './Login.css';
 
 interface LoginProps {
@@ -15,7 +14,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
     e.preventDefault();
     setLoading(true);
 
-    // Validação das credenciais
     if (username === 'guedesesilva' && password === 'jvs306') {
       setTimeout(() => {
         onLoginSuccess({

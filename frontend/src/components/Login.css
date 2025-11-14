@@ -1,4 +1,4 @@
-﻿/* frontend/src/components/Login.css - GUEDES & SILVA DESIGN PROFISSIONAL */
+﻿/* frontend/src/components/Login.css - VERSÃO OTIMIZADA PARA PROPORÇÕES */
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@
   align-items: center;
   padding: 20px;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden; /* IMPEDE BARRAS DE ROLAGEM */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -34,45 +34,48 @@
 
 .login-container {
   display: flex;
-  width: 1000px;
-  max-width: 95%;
-  min-height: 600px;
+  width: 85%; /* REDUZIDO PARA 85% - MAIS BALANCEADO */
+  max-width: 1100px; /* LIMITE MÁXIMO MENOR */
+  min-height: 500px; /* ALTURA REDUZIDA */
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.2);
   z-index: 1;
+  margin: 0 auto;
 }
 
 .login-form {
   flex: 1;
-  padding: 40px 30px;
+  padding: 35px 30px; /* PADDING REDUZIDO */
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   min-height: 100%;
 }
 
 .firm-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px; /* ESPAÇAMENTO REDUZIDO */
 }
 
 .firm-logo {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
+  width: 100px; /* REDUZIDO SIGNIFICATIVAMENTE */
+  height: 100px;
+  margin: 0 auto 15px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border: 3px solid rgba(255, 255, 255, 0.9);
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  box-shadow: 0 10px 25px rgba(26, 42, 108, 0.3);
+  border: 3px solid rgba(255, 255, 255, 0.8);
   overflow: hidden;
 }
 
@@ -86,12 +89,12 @@
 .logo-fallback {
   color: #1a2a6c;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
   text-align: center;
 }
 
 .firm-name {
-  font-size: 24px;
+  font-size: 22px; /* REDUZIDO */
   font-weight: 700;
   color: #1a2a6c;
   letter-spacing: 0.5px;
@@ -100,73 +103,80 @@
 
 .firm-subtitle {
   color: #666;
-  font-size: 13px;
-  margin-top: 5px;
+  font-size: 12px;
+  margin-top: 3px;
+  font-style: italic;
 }
 
 .system-title {
-  font-size: 18px;
+  font-size: 16px;
   color: #1a2a6c;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-align: center;
   font-weight: 600;
 }
 
 .login-header p {
   color: #666;
-  font-size: 13px;
+  font-size: 12px;
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 15px; /* ESPAÇAMENTO REDUZIDO */
 }
 
 .form-group label {
   display: block;
   margin-bottom: 6px;
   color: #444;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 13px;
 }
 
 .form-group input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 13px;
-  transition: all 0.3s;
-  background: rgba(255, 255, 255, 0.9);
+  padding: 12px 15px; /* REDUZIDO */
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+.form-group input::placeholder {
+  color: #999;
 }
 
 .form-group input:focus {
   outline: none;
   border-color: #1a2a6c;
-  box-shadow: 0 0 0 2px rgba(26, 42, 108, 0.2);
-  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 2px rgba(26, 42, 108, 0.1);
+  background: rgba(255, 255, 255, 0.98);
 }
 
 .btn-login {
   background: linear-gradient(135deg, #1a2a6c, #2a3a7c);
   color: white;
   border: none;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 13px;
+  border-radius: 10px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
-  margin-top: 15px;
+  transition: all 0.3s ease;
+  margin-top: 12px;
   width: 100%;
-  box-shadow: 0 4px 15px rgba(26, 42, 108, 0.3);
+  box-shadow: 0 6px 20px rgba(26, 42, 108, 0.3);
 }
 
 .btn-login:hover:not(:disabled) {
   background: linear-gradient(135deg, #2a3a7c, #3a4a8c);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(26, 42, 108, 0.4);
+  box-shadow: 0 8px 25px rgba(26, 42, 108, 0.4);
 }
 
 .btn-login:disabled {
@@ -177,13 +187,14 @@
 
 .login-image {
   flex: 1;
-  background: linear-gradient(135deg, rgba(26, 42, 108, 0.8), rgba(26, 42, 108, 0.9));
-  backdrop-filter: blur(5px);
+  background: linear-gradient(135deg, rgba(26, 42, 108, 0.85), rgba(26, 42, 108, 0.95));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px;
+  padding: 30px 25px; /* REDUZIDO */
   color: white;
   text-align: center;
   position: relative;
@@ -205,12 +216,12 @@
 }
 
 .system-description {
-  max-width: 320px;
+  max-width: 280px; /* REDUZIDO */
   z-index: 1;
 }
 
 .system-description h2 {
-  font-size: 20px;
+  font-size: 18px; /* REDUZIDO */
   margin-bottom: 15px;
   font-weight: 600;
   color: #fff;
@@ -220,7 +231,7 @@
   font-size: 13px;
   line-height: 1.5;
   margin-bottom: 15px;
-  color: #e0e0e0;
+  color: #e8f4ff;
 }
 
 .features {
@@ -232,48 +243,63 @@
 .features li {
   margin-bottom: 8px;
   font-size: 12px;
-  color: #e0e0e0;
+  color: #e8f4ff;
   padding-left: 8px;
+  position: relative;
 }
 
-.credentials-info {
-  background: rgba(26, 42, 108, 0.1);
-  padding: 8px;
-  border-radius: 6px;
-  margin-top: 12px;
-  font-size: 11px;
-  color: #1a2a6c;
-  text-align: center;
-  border-left: 3px solid #1a2a6c;
+.features li::before {
+  content: '✓';
+  position: absolute;
+  left: -8px;
+  color: #4CAF50;
+  font-weight: bold;
 }
 
 .forgot-password {
   text-align: center;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .forgot-password a {
   color: #1a2a6c;
   text-decoration: none;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .forgot-password a:hover {
+  color: #2a3a7c;
   text-decoration: underline;
 }
 
 .footer {
-  margin-top: 25px;
+  margin-top: 20px;
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
   color: #777;
 }
 
-/* Responsive */
+/* RESPONSIVIDADE MELHORADA */
+@media (max-width: 1200px) {
+  .login-container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .login-container {
+    width: 92%;
+    max-width: 1000px;
+  }
+}
+
 @media (max-width: 768px) {
   .login-container {
+    width: 95%;
     flex-direction: column;
     min-height: auto;
+    border-radius: 15px;
   }
   
   .login-image {
@@ -285,8 +311,8 @@
   }
 
   .firm-logo {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   
   .firm-name {
@@ -296,11 +322,12 @@
 
 @media (max-width: 480px) {
   .login-page {
-    padding: 10px;
+    padding: 15px;
   }
   
   .login-container {
-    max-width: 100%;
+    width: 100%;
+    border-radius: 12px;
   }
   
   .login-form {
@@ -308,12 +335,12 @@
   }
   
   .firm-logo {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
   }
   
   .btn-login {
-    padding: 10px;
+    padding: 12px;
     font-size: 14px;
   }
 }
